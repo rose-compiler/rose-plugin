@@ -55,3 +55,41 @@ Examples
   * load a shared library containing a single plugin, execute the plugin named print-names, also pass an option named "pretty-printing" to the plugin. 
 * rose-compiler -rose:plugin_lib lib.so -rose:plugin_lib lib2.so -rose:plugin_action act1 -rose:plugin_action act2 -rose:plugin_arg_act1 op1 -rose:plugin_arg_act1 op2 -rose:plugin_arg_act2 op3 -rose:plugin_arg_act2 op4
   * load multiple shared libraries, executing two actions in the order they show up in the command line, also pass multiple options to each of the plugins
+
+## Plugin Super Class
+Two interface functions are provided for a ROSE plugin:
+* ParseArgs(): optionally handle command line options passed to this plugin
+* process(): process the AST 
+<pre>
+  class PluginAction {
+    public:
+      virtual void process(SgProject*) {};
+      virtual bool ParseArgs(const std::vector<std::string> &arg) {return true; };
+  };
+</pre>
+
+## Running the example plugin
+
+Edit makefile to point the ROSE_INST to the right path (--prefix path).
+
+Then type
+* make check
+
+Command line and options used are: 
+* rose-compiler -rose:plugin_lib PrintNamesPlugin.so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -c input_testPlugins.C 
+
+Sample input file: input_testPlugins.C 
+```
+int foo() {}
+int bar(); 
+int a, b,c;
+```
+
+Sample output: 
+```
+1 arguments
+op1
+"foo"
+```
+
+
