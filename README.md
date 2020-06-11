@@ -70,7 +70,7 @@ Two interface functions are provided for a ROSE plugin:
 
 ## Running the example plugin
 
-Edit makefile to point the ROSE_INST to the right path (--prefix path).
+Edit makefile to set ROSE_INSTALL to the right path (--prefix path).
 
 Then type
 * make check
