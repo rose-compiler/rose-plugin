@@ -32,3 +32,26 @@ Now, we can call the default ROSE identityTranslator and chain up two plugins (a
 rose-compiler -rose:plugin_lib lib.so -rose:plugin_lib lib2.so -rose:plugin_action act -rose:plugin_action act2 \
  -rose:plugin_arg_act1 op1 -rose:plugin_arg_act1 op2 -rose:plugin_arg_act2 op3 -rose:plugin_arg_act2 op4 
 ```
+
+## Command Line Interface
+rose-compiler --help , excerpt of the plugin section 
+```
+Plugin Mode:
+     -rose:plugin_lib <shared_lib_filename>
+                             Specify the file path to a shared library built from plugin source files 
+                             This option can repeat multiple times to load multiple libraries 
+     -rose:plugin_action <act_name>
+                             Specify the plugin action to be executed
+                             This option can repeat multiple times to execute multiple actions 
+                             in the order shown up in command line 
+     -rose:plugin_arg_<act_name>  <option>
+                             Specify one option to be passed to a plugin named act_name
+                             This option can repeat multiple times to provide multiple options to a plugin 
+
+```
+
+Examples
+* rose-compiler -rose:plugin_lib /path/libPrintNamesPlugin.so -rose:plugin_action print-names -rose:plugin_arg_print-names pretty-printing
+  * load a shared library containing a single plugin, execute the plugin named print-names, also pass an option named "pretty-printing" to the plugin. 
+* rose-compiler -rose:plugin_lib lib.so -rose:plugin_lib lib2.so -rose:plugin_action act1 -rose:plugin_action act2 -rose:plugin_arg_act1 op1 -rose:plugin_arg_act1 op2 -rose:plugin_arg_act2 op3 -rose:plugin_arg_act2 op4
+  * load multiple shared libraries, executing two actions in the order they show up in the command line, also pass multiple options to each of the plugins
